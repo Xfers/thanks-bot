@@ -1,6 +1,6 @@
 
 import fetch from 'node-fetch'
-var bot_access_token = "xoxb-2303764927-1092409193360-g266jWUEb9fOhYgqD5swm4Lc";
+import {bot_access_token} from '../constants.js'
 
 export async function sendMessage(text, channel, thread_ts) {
   console.log(`Sending text: ${text}`)
