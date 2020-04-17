@@ -1,3 +1,4 @@
-export const port = 7000;
-export const dbname = "thanksbot"
-export const bot_access_token = "<get token from slack>";
+export const port = process.env.PORT || 8080;
+export const dburl = process.env.MONGODB_URI || "mongodb://localhost/thanksbot"
+export const bot_access_token = process.env.SLACK_BOT_ACCESS_TOKEN || "";
+export const rate_limit_in_minutes = 5

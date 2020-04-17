@@ -2,12 +2,17 @@ import * as slackClient from '../client/slack_client.js';
 import * as thankbot from './thankbot.js';
 
 var bot_user_token = "U012QC15PAL";
-var help_msg = "\nWelcome to Xfers-Thanksbot! \n The format to use is: `@thanks <@person> for <reason>` without the `<>`"
+var help_msg = "\nWelcome to Xfers-Thankbot! \n The format to use is: `@thankbot <@person> for <reason>` without the `<>`"
 
 export function process_request(req, res) {
   var body = req.body;
+  console.log(body)
   // Request params
-  const channel = body && body.event.channel
+  const channel = body && body.event && body.event.channel
+  if (body.challenge && !channel) {
+    res.send(req.body);
+    return
+  }
   const thread_ts = body && body.event.thread_ts
   const sender = body && body.event.user
   const raw_text = body && body.event.text
@@ -32,6 +37,6 @@ export function process_request(req, res) {
 
   // Passes all the invariants, send to thankbot for bookingkeeping and sending
   const reason = stripped_text.substring(stripped_text.indexOf('for')+3)
-  thankbot.send_thanks_if_possible(sender, tagged[0], channel, thread_ts, reason);
-  res.send({});
+  thankbot.sendThanksIfPossible(sender, tagged[0], channel, thread_ts, reason);
+  res.send(req.body);
 }
