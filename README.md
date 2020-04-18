@@ -16,7 +16,8 @@
 node ./seed/seed.js (it wont override so you gotta drop ur db first if u have one)
 
 ## setup(docker)
-`docker-compose up --build`
+Production: `docker-compose up --build`
+Development: `docker-compose -f docker-compose-dev.yml up --build`
 
 - mongo-express web => localhost:8081
 - node server => localhost:8080
