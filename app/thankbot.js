@@ -4,7 +4,12 @@ import { Employee } from '../models/employee.js'
 import { Thank } from '../models/thank.js'
 import {rate_limit_in_minutes} from '../constants.js'
 
-export async function sendThanksIfPossible(ctx){
+export function addInvariants(ctx){
+  ctx.tagged_only = tagged[0]
+  ctx.reason = stripped_text.substring(stripped_text.indexOf('for')+3)
+}
+
+export async function sendThanks(ctx){
   var src = await Employee.findOne({ 'slack_token': ctx.sender });
   var dest = await Employee.findOne({ 'slack_token': ctx.tagged_only });
 
