@@ -15,6 +15,12 @@
 
 node ./seed/seed.js (it wont override so you gotta drop ur db first if u have one)
 
+## setup(docker)
+`docker-compose up --build`
+
+- mongo-express web => localhost:8081
+- node server => localhost:8080
+
 ## production TODO:
 
 hook up a real AWS instead of ngrok.
