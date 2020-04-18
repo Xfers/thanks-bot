@@ -4,6 +4,7 @@ import {bot_access_token} from '../constants.js'
 
 export async function sendMessage(text, channel, thread_ts) {
   console.log(`Sending text: ${text}`)
+  let prefix = process.env.NODE_ENV == 'development'? '[DEV]' : ''
   // Echo back 
   // reply to channel if thread_ts is missing
   // https://api.slack.com/methods/chat.postMessage#arg_thread_ts
@@ -12,7 +13,7 @@ export async function sendMessage(text, channel, thread_ts) {
       body:    JSON.stringify({
         "channel":channel, 
         "thread_ts": thread_ts, 
-        "text":  text // CHANGE MESSAGE FORMAT HERE
+        "text":  prefix + text // CHANGE MESSAGE FORMAT HERE
       }),
       headers: { 
         'Content-Type': 'application/json',
