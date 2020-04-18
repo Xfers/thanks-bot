@@ -16,9 +16,13 @@
 node ./seed/seed.js (it wont override so you gotta drop ur db first if u have one)
 
 ## setup(docker)
-Production: `docker-compose up --build`
-Development: `docker-compose -f docker-compose-dev.yml up --build`
+1. set up env: put the SLACK_BOT_ACCESS_TOKEN in `.env` file
 
+2. start docker-compose
+  - Production: `docker-compose up --build`
+  - Development: `docker-compose -f docker-compose-dev.yml up --build`
+
+DONE
 - mongo-express web => localhost:8081
 - node server => localhost:8080
 
