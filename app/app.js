@@ -1,5 +1,6 @@
 import * as slackClient from '../client/slack_client.js';
 import * as thankbot from './thankbot.js';
+import * as xfersClient from '../client/xfers/client.js';
 
 var bot_user_token = "U012QC15PAL";
 var help_msg = "\nWelcome to Xfers-Thankbot! \n The format to use is: `@thankbot <@person> for <reason>` without the `<>`"
@@ -20,13 +21,17 @@ export function process_request(req, res) {
 
   // Display help if needed
   if (
-    stripped_text.trim().toLowerCase() == 'help' || 
+    stripped_text.trim().toLowerCase() == 'help' ||
     stripped_text.trim().toLowerCase() == 'how'
     ) { slackClient.sendMessage(`${help_msg}`, channel, thread_ts); res.send({sucess: true}); return }
 
+  if (
+    stripped_text.trim().toLowerCase() == 'status'
+  ) { xfersClient.get_bot_status(); return }
+
   // [Invariant] Check if the user used "for"
   if (stripped_text.toLowerCase().indexOf('for') == -1) { slackClient.sendMessage(`<@${sender}> Whats this thanks for?`, channel, thread_ts); res.send({sucess: true}); return }
-  
+
   // [Invariant] Check the number of people tagged should exactly 1
   const tagged = stripped_text.match(/(?<=(<@)).*(?=>)/g);
   if (req.body && tagged == null) { slackClient.sendMessage(`<@${sender}> You need at least one person to thank!`, channel, thread_ts); res.send({sucess: true}); return } // if noone is tagged
