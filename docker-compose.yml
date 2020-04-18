@@ -9,8 +9,12 @@ services:
       - 8080:8080
     depends_on:
       - mongo
-    volumes:
-      - .:/app
+    env_file:
+        - .env # For SLACK_BOT_ACCESS_TOKEN
+    environment:
+      NODE_ENV: production
+      PORT: 8080
+      MONGODB_URI: "mongodb://mongo:27017/thanksbot"
 
   mongo:
     image: mongo
