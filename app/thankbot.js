@@ -1,20 +1,20 @@
-import * as slackClient from '../client/slack_client.js';
+import * as slackClient from '../client/slack-client.js';
 import moment from 'moment'
 import { Employee } from '../models/employee.js'
 import { Thank } from '../models/thank.js'
 import {rate_limit_in_minutes} from '../constants.js'
 
-export async function sendThanksIfPossible(sender, tagged, channel, thread_ts, reason){
-  var src = await Employee.findOne({ 'slack_token': sender });
-  var dest = await Employee.findOne({ 'slack_token': tagged });
+export async function sendThanksIfPossible(ctx){
+  var src = await Employee.findOne({ 'slack_token': ctx.sender });
+  var dest = await Employee.findOne({ 'slack_token': ctx.tagged_only });
 
   // FIXME: the return false in catch seems not returning false?
-  if(!is_valid({src, dest, sender, channel, thread_ts, reason})) return
+  if(!is_valid({src, dest, ctx})) return
   // pull the employee given the sender and tagged
-  const msg = `<@${sender}> sent thanks to <@${tagged}> for${reason}!`
-  const result = await slackClient.sendMessage(msg , channel, thread_ts)
+  const msg = `<@${ctx.sender}> sent thanks to <@${ctx.tagged_only}> for${ctx.reason}!`
+  const result = await slackClient.sendMessage(msg, ctx)
   if (result) {
-    let t = new Thank({src_id: src.id, dest_id: dest.id, reason: reason})
+    let t = new Thank({src_id: src.id, dest_id: dest.id, reason: ctx.reason})
     src.thanks_given.push(t)
     dest.thanks_recieved.push(t)
     await t.save()
@@ -25,11 +25,11 @@ export async function sendThanksIfPossible(sender, tagged, channel, thread_ts, r
 
 // validations
 
-function is_valid({src, dest, sender, channel, thread_ts, reason}) {
+function is_valid({src, dest, ctx}) {
   try {
-    check_invalid_dest({dest, channel, thread_ts})
-    same_as_previous_thanks({src, channel, thread_ts, reason})
-    check_user_vote_today({src, sender})
+    check_invalid_dest({dest, ctx})
+    same_as_previous_thanks({src, ctx})
+    check_user_vote_today({src, ctx})
   } catch (e) {
     console.error("Validation failed", e)
     return false
@@ -37,32 +37,32 @@ function is_valid({src, dest, sender, channel, thread_ts, reason}) {
   return true
 }
 
-async function check_invalid_dest({dest, channel, thread_ts}) {
+async function check_invalid_dest({dest, ctx}) {
   if (dest == undefined) {
-    await slackClient.sendMessage("[Error] Undefined user! did we add them to thanksbot?" , channel, thread_ts)
+    await slackClient.sendMessage("[Error] Undefined user! did we add them to thanksbot?" , ctx)
     throw new Error('Invalid destination');
   }
 }
 
-async function same_as_previous_thanks({src, channel, thread_ts, reason}) {
+async function same_as_previous_thanks({src, ctx}) {
   if (src.thanks_given == undefined) return false
   if (src.thanks_given.length == 0) return false
   const idx = src.thanks_given.length - 1
-  if (src.thanks_given[idx].reason == reason) {
-    await slackClient.sendMessage("[Error] Same reason as previous" , channel, thread_ts)
+  if (src.thanks_given[idx].reason == ctx.reason) {
+    await slackClient.sendMessage("[Error] Same reason as previous" , ctx)
     throw new Error('Duplicate reason');
   }
 }
 
-async function check_user_vote_today({src, sender}){
+async function check_user_vote_today({src, ctx}){
   if (src.thanks_given == undefined) return false
   if (src.thanks_given.length == 0) return false
   const idx = src.thanks_given.length - 1
   var a = moment(src.thanks_given[idx].created_at)
   var b = moment()
-  const msg = `<@${sender}>, you've already thanked someone in the last ${rate_limit_in_minutes} minutes! Try again in ${time_left_till_next_vote(src)} seconds!`
+  const msg = `<@${ctx.sender}>, you've already thanked someone in the last ${rate_limit_in_minutes} minutes! Try again in ${time_left_till_next_vote(src)} seconds!`
   if (b.diff(a, 'minutes') < rate_limit_in_minutes) {
-    await slackClient.sendMessage(`[Error] ${msg}` , channel, thread_ts)
+    await slackClient.sendMessage(`[Error] ${msg}` , ctx)
     throw new Error('Voted today');
   }
 }

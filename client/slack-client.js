@@ -2,7 +2,7 @@
 import fetch from 'node-fetch'
 import {bot_access_token} from '../constants.js'
 
-export async function sendMessage(text, channel, thread_ts) {
+export async function sendMessage(text, ctx) {
   console.log(`Sending text: ${text}`)
   let prefix = process.env.NODE_ENV == 'development'? '[DEV]' : ''
   // Echo back 
@@ -11,8 +11,8 @@ export async function sendMessage(text, channel, thread_ts) {
   const result = await fetch('https://slack.com/api/chat.postMessage', {
       method: 'post',
       body:    JSON.stringify({
-        "channel":channel, 
-        "thread_ts": thread_ts, 
+        "channel": ctx.channel, 
+        "thread_ts": ctx.thread_ts, 
         "text":  prefix + text // CHANGE MESSAGE FORMAT HERE
       }),
       headers: { 
