@@ -8,36 +8,42 @@ import {bot_user_token} from '../constants.js'
 // help
 // thanks-for etc
 export function process_request(req, res) {
+  console.log(req.body)
   var body = req.body;
-  console.log(body)
-
-  // Request params
-  const channel = body && body.event && body.event.channel
-  if (body.challenge && !channel) { // handle challenge
+  if (body.challenge) { // handle challenge
     res.send(req.body);
     return
   }
+
+  // Request params
+  const channel = body && body.event && body.event.channel
   const thread_ts = body && body.event.thread_ts
   const sender = body && body.event.user
   const raw_text = body && body.event.text
   const stripped_text = raw_text.replace(`<@${bot_user_token}>`,'')
   const tagged = stripped_text.match(/(?<=(<@)).*(?=>)/g);
-  var handled = false
-
+  
   var ctx = { sender, stripped_text, tagged, channel, thread_ts, res, req }
   
-  handled = help.sendHelpMessage(ctx);
-  if (handled) return;
+  var setInvariants = (ctx) => {
+    // add some invariant fields to ctx
+    ctx.tagged_only = tagged[0]
+    ctx.reason = stripped_text.substring(stripped_text.indexOf('for')+3)
+  }
 
-  handled = invariant.checkInvariants(ctx);
-  if (handled) return;
+  // response_chain accepts functions like (ctx) => {}
+  var response_chain = [
+    help.sendHelpMessage, 
+    invariant.checkInvariants, 
+    setInvariants, 
+    thankbot.sendThanksIfPossible
+  ]
 
-  // add some invariant fields to ctx
-  ctx.tagged_only = tagged[0]
-  ctx.reason = stripped_text.substring(stripped_text.indexOf('for')+3)
+  var handled = false
+  for (let i=0; i<response_chain.length; i++) {
+    handled = response_chain[i](ctx);
+    if (handled) break;
+  };
 
-  // thankbot actual
-  handled = thankbot.sendThanksIfPossible(ctx);
-
-  res.send(req.body);
+  res.send({success: true});
 }
