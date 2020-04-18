@@ -3,7 +3,7 @@ import {updateDataIfNeeded} from './seed/seed.js'
 import express from 'express'
 import http from 'http'
 import bodyParser from 'body-parser'
-import * as requestProcessor from './app/app.js'
+import * as requestProcessor from './app/bot-router.js'
 import mongoose from 'mongoose'
 
 mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
