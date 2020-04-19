@@ -11,7 +11,7 @@ class GetToken extends BaseRequest {
     super();
     // TODO: might need to escape the '+' in phone_no
     const signature = sha1Hex(
-      `${this.phone_no}${otp}${xfers_app_api_secret_key}`
+      `${encodeURIComponent(this.phone_no)}${otp}${xfers_app_api_secret_key}`
     );
     const query = { otp, phone_no, signature };
     this.method = 'get';
