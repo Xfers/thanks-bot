@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 import { bot_access_token } from '../constants.js';
 
 export async function sendMessage(text, ctx) {
-  console.log(`Sending text: ${text}`);
+  console.log(`Sending text: ${text}: ${bot_access_token}`);
   let prefix = process.env.NODE_ENV == 'development' ? '[DEV]' : '';
   // Echo back
   // reply to channel if thread_ts is missing
