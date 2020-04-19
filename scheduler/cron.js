@@ -13,6 +13,16 @@ import { Winner } from '../models/winner.js';
 import { Employee } from '../models/employee.js';
 
 export async function startScheduler() {
+
+  /*  TEST CODE TO SELECT WINNER
+  let winner = await calculateWinner();
+  let winner_employee = await Employee.findOne({ _id: winner.winner_id });
+  slackClient.sendMessage(
+    `Last month's winner is ${winner_employee.email}, start:${winner.start}, end: ${winner.end}, ${winner.thanks_recv}`,
+    { channel: thankbot_test_channel }
+  );
+  */
+
   // award job
   schedule.scheduleJob(award_scheduler, async () => {
     let winner = await calculateWinner();
