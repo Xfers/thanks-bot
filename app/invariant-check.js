@@ -16,9 +16,5 @@ export function checkInvariants(ctx) {
     slackClient.sendMessage(`<@${ctx.sender}> Only one person at a time please!`, ctx); 
     return true
   } 
-  // [Invariant] Make sure not thanking yourself
-  if (ctx.tagged.trim() == ctx.sender.trim()) {
-    slackClient.sendMessage(`<@${ctx.sender}>, you can't thank yourself!`, ctx);
-    return true} // if too many people tagged
 }
 

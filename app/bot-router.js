@@ -4,6 +4,7 @@ import {bot_user_token} from '../constants.js'
 
 // Here is where we route the requests in the bot itself, 
 export function processRequest(req, res, response_chain) {
+  // discard if not in the last 5 seconds
   console.log(req.body)
   var body = req.body;
   if (body.challenge) { // handle challenge

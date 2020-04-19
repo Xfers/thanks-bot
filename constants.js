@@ -10,3 +10,4 @@ export const thankbot_test_channel = "C011KRYDDAB";
 export const award_scheduler = '0 0 12 1 * ?'// Every month on the 1st, at noon
 export const nag_scheduler = '0 0 12 * * ?'// Every day at noon - 12pm
 export const reward_amt = 1
+export const reward_currency = "SGD"

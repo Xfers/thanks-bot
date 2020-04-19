@@ -16,7 +16,7 @@ mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
 updateDataIfNeeded()
 
 // start scheduler
-// startScheduler()
+startScheduler()
 
 var app = express();
 app.use(

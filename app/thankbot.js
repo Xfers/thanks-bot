@@ -5,8 +5,12 @@ import { Thank } from '../models/thank.js'
 import {rate_limit_in_minutes} from '../constants.js'
 
 export function addInvariants(ctx){
-  ctx.tagged_only = tagged[0]
-  ctx.reason = stripped_text.substring(stripped_text.indexOf('for')+3)
+  ctx.tagged_only = ctx.tagged[0]
+  ctx.reason = ctx.stripped_text.substring(ctx.stripped_text.indexOf('for')+3)// [Invariant] Make sure not thanking yourself
+  if (ctx.tagged_only.trim() == ctx.sender.trim()) {
+    slackClient.sendMessage(`<@${ctx.sender}>, you can't thank yourself!`, ctx);
+    return true
+  } // if too many people tagged
   return false
 }
 
@@ -15,7 +19,7 @@ export async function sendThanks(ctx){
   var dest = await Employee.findOne({ 'slack_token': ctx.tagged_only });
 
   // FIXME: the return false in catch seems not returning false?
-  if(!is_valid({src, dest, ctx})) return
+  if(await !is_valid({src, dest, ctx})) return true
   // pull the employee given the sender and tagged
   const msg = `<@${ctx.sender}> sent thanks to <@${ctx.tagged_only}> for${ctx.reason}!`
   const result = await slackClient.sendMessage(msg, ctx)
@@ -31,12 +35,11 @@ export async function sendThanks(ctx){
 }
 
 // validations
-
-function is_valid({src, dest, ctx}) {
+async function is_valid({src, dest, ctx}) {
   try {
-    check_invalid_dest({dest, ctx})
-    same_as_previous_thanks({src, ctx})
-    check_user_vote_today({src, ctx})
+    await check_invalid_dest({dest, ctx})
+    await same_as_previous_thanks({src, ctx})
+    await check_user_vote_today({src, ctx})
   } catch (e) {
     console.error("Validation failed", e)
     return false
