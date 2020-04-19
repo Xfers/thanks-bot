@@ -1,9 +1,6 @@
 import sha1Hex from 'sha1-hex';
 import BaseRequest from './base_request.js';
-import {
-  xfers_app_api_key,
-  xfers_app_api_secret_key,
-} from '../../../constants.js';
+import { xfers_app_api_key, xfers_app_api_secret_key } from '../../../constants.js';
 
 class SignupLoginRequest extends BaseRequest {
   constructor(phone_no) {
