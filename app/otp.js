@@ -5,15 +5,10 @@ import { Winner } from '../models/winner.js';
 
 // This is invoked with "@thankbot OTP=<phone number>" command
 export async function sendOTP(ctx) {
-  console.log('sendOTP flow');
   let cmd = ctx.stripped_text.trim();
-  console.log(cmd.indexOf('OTP='));
   if (cmd.indexOf('OTP=') != -1) {
-    console.log(ctx.sender);
     let uncollected_winners = await Winner.find({ disbursed_at: null });
-    console.log(uncollected_winners);
     let employee = await checkSenderIsWinner(ctx.sender);
-    console.log(employee);
     if (employee) {
       let phone_number_string = cmd.replace('OTP=', '').trim();
       let res = await xfersClient.send_otp_to_user(phone_number_string);
@@ -32,7 +27,6 @@ export async function sendOTP(ctx) {
 
 // This is invoked with "@thankbot OTP-CODE=<receivedOTP>" command
 export async function receiveOTP(ctx) {
-  console.log('receive flow');
   let cmd = ctx.stripped_text.trim();
   if (cmd.indexOf('OTP-CODE=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
@@ -52,7 +46,7 @@ export async function receiveOTP(ctx) {
       res = await xfersClient.payouts(user_api_token);
       // announce success -- "successfully disbursed ${reward_amt} to you"
       let winner = await winnerWithId(employee.id);
-      slackClient.sendMessage(`Congratulations <@${ctx.sender}>! @Thankbot sent ${winner.amount}${winner.curreny} to your xfers account!`, ctx);
+      slackClient.sendMessage(`Congratulations <@${ctx.sender}>! @Thankbot sent ${winner.amount}${winner.currency} to your xfers account!`, ctx);
     } else {
       slackClient.sendMessage(`<@${ctx.sender}>, You don't have any awards waiting to be disbursed`, ctx);
     }
