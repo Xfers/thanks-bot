@@ -5,9 +5,9 @@ import http from 'http'
 import bodyParser from 'body-parser'
 import * as botRouter from './app/bot-router.js'
 import mongoose from 'mongoose'
-import * as help from './help.js'
-import * as invariant from './invariant-check.js'
-import * as thankbot from './thankbot.js';
+import * as help from './app/help.js'
+import * as invariant from './app/invariant-check.js'
+import * as thankbot from './app/thankbot.js';
 
 mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -23,8 +23,8 @@ app.use(bodyParser.json())
 
 app.post('/thanksbot', (req, res, next) => {
   botRouter.processRequest(req, res, [
-    help.sendHelpMessage, 
-    invariant.checkInvariants, 
+    help.sendHelpMessage,
+    invariant.checkInvariants,
     thankbot.addInvariants,
     thankbot.sendThanks
   ])
