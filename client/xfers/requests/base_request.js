@@ -6,8 +6,8 @@ class BaseRequest {
     this.method;
     this.base_url =
       xfers_env == 'production'
-        ? 'https://www.xfers.io/api/'
-        : 'https://sandbox.xfers.io/api/';
+        ? 'https://www.xfers.io/api'
+        : 'https://sandbox.xfers.io/api';
     this.relative_url = '';
   }
 

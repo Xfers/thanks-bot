@@ -5,7 +5,7 @@ class GetUserInfoRequest extends BaseRequest {
     super();
     this.xfers_api_key = xfers_api_key;
     this.method = 'get';
-    this.relative_url = 'v3/user';
+    this.relative_url = '/v3/user';
   }
 
   headers() {
