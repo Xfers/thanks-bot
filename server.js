@@ -1,5 +1,6 @@
 import {port, dburl} from './constants.js'
 import {updateDataIfNeeded} from './seed/seed.js'
+import {startScheduler} from './scheduler/cron.js'
 import express from 'express'
 import http from 'http'
 import bodyParser from 'body-parser'
@@ -11,7 +12,11 @@ import * as thankbot from './app/thankbot.js';
 
 mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
 
+// update db from csv
 updateDataIfNeeded()
+
+// start scheduler
+// startScheduler()
 
 var app = express();
 app.use(
