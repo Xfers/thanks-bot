@@ -31,7 +31,7 @@ class SignupLoginRequest extends BaseRequest {
     return {
       method: this.method,
       headers: this.headers(),
-      body: this.body(),
+      body: JSON.stringify(this.body()),
     };
   }
 }

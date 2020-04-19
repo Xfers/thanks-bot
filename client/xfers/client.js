@@ -16,3 +16,9 @@ export async function get_token(otp, phone_no) {
   let xf_req = new xfersRequest.get_token(otp, phone_no);
   return await xf_req.send();
 }
+
+export async function payouts(phone_no) {
+  // we can know the account is verified or not here
+  let xf_req = new xfersRequest.payouts(phone_no);
+  return await xf_req.send();
+}
