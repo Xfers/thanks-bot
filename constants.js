@@ -1,6 +1,6 @@
 // server
 export const port = process.env.PORT || 8080;
-export const dburl = process.env.MONGODB_URI || 'mongodb://mongo:27017/thanksbot';
+export const dburl = process.env.MONGODB_URI || 'mongodb://localhost:27017/thanksbot';
 
 // slack bot
 export const bot_access_token = process.env['SLACK_BOT_ACCESS_TOKEN'] || '';
