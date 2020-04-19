@@ -3,7 +3,7 @@
 import {bot_user_token} from '../constants.js'
 
 // Here is where we route the requests in the bot itself, 
-export function processRequest(req, res, response_chain) {
+export async function processRequest(req, res, response_chain) {
   // discard if not in the last 5 seconds
   console.log(req.body)
   var body = req.body;
@@ -23,7 +23,7 @@ export function processRequest(req, res, response_chain) {
 
   var handled = false
   for (let i=0; i<response_chain.length; i++) {
-    handled = response_chain[i](ctx);
+    handled = await response_chain[i](ctx);
     if (handled) break;
   };
 

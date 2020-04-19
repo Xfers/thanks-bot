@@ -9,6 +9,7 @@ import mongoose from 'mongoose'
 import * as help from './app/help.js'
 import * as invariant from './app/invariant-check.js'
 import * as thankbot from './app/thankbot.js';
+import * as otpFlow from './app/otp.js';
 
 mongoose.connect(dburl, {useNewUrlParser: true, useUnifiedTopology: true});
 
@@ -28,6 +29,7 @@ app.use(bodyParser.json())
 
 app.post('/thanksbot', (req, res, next) => {
   botRouter.processRequest(req, res, [
+    otpFlow.sendOTP,
     help.sendHelpMessage,
     invariant.checkInvariants,
     thankbot.addInvariants,
