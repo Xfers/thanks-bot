@@ -25,10 +25,10 @@ export async function startScheduler() {
 
   // nag job
   // everyday find unawarded winners
-  schedule.scheduleJob(nag_scheduler, function() {
+  schedule.scheduleJob(nag_scheduler, async () => {
     let uncollected_winners = await Winner.find({ disbursed_at: null });
-    uncollected_winners.forEach(winner => {
-      let em = await Employee.findOne({id: winner.id});
+    uncollected_winners.forEach(async winner => {
+      let winner_employee = await Employee.findOne({id: winner.id});
       slackClient.sendMessage(
         `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`, 
         { channel: thankbot_announce_channel });

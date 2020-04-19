@@ -1,10 +1,12 @@
+import * as xfersClient from '../client/xfers/client.js';
 import * as slackClient from '../client/slack-client.js';
 import { Employee } from '../models/employee.js';
 import { Winner } from '../models/winner.js';
 
 // This is invoked with "@thankbot OTP=<phone number>" command
 export async function sendOTP(ctx) {
-  let cmd = ctx.stripped_text.trim().toLowerCase();
+  let cmd = ctx.stripped_text.trim();
+  console.log(cmd.indexOf('OTP='));
   if (cmd.indexOf('OTP=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
@@ -34,7 +36,7 @@ export async function sendOTP(ctx) {
 
 // This is invoked with "@thankbot OTP-CODE=<recievedOTP>" command
 export async function recieveOTP(ctx) {
-  let cmd = ctx.stripped_text.trim().toLowerCase();
+  let cmd = ctx.stripped_text.trim();
   if (cmd.indexOf('OTP-CODE=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
