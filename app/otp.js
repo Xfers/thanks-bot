@@ -10,7 +10,7 @@ export async function sendOTP(ctx) {
   if (cmd.indexOf('OTP=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
-      let phone_number_string = cmd.replace('OTP=').trim();
+      let phone_number_string = cmd.replace('OTP=','').trim();
       let res = await xfersClient.send_otp_to_user(phone_number_string);
       let json_result = await res.json();
       if (json_result['msg'] == 'success') {
@@ -31,7 +31,7 @@ export async function recieveOTP(ctx) {
   if (cmd.indexOf('OTP-CODE=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
-      let code = cmd.replace('OTP-CODE=').trim();
+      let code = cmd.replace('OTP-CODE=','').trim();
       // check code if valid
       // if checks are good, disburse money using xfers client
       // if code invalid or disbursement failure, send error message here
