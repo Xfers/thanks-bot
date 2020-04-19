@@ -59,15 +59,15 @@ async function calculateWinner() {
   var count_by_user = {};
   var user_by_thanks = {};
   thanks_for_month.forEach(t => {
-    if (count_by_user[t.src_id] == undefined) {
-      count_by_user[t.src_id] = 1;
+    if (count_by_user[t.dest_id] == undefined) {
+      count_by_user[t.dest_id] = 1;
     } else {
-      count_by_user[t.src_id] += 1;
+      count_by_user[t.dest_id] += 1;
     }
-    if (user_by_thanks[t.src_id] == undefined) {
-      user_by_thanks[t.src_id] = [t];
+    if (user_by_thanks[t.dest_id] == undefined) {
+      user_by_thanks[t.dest_id] = [t];
     } else {
-      user_by_thanks[t.src_id].push(t);
+      user_by_thanks[t.dest_id].push(t);
     }
   });
 
