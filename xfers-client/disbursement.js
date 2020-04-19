@@ -1,6 +1,4 @@
-
 export function disburseMoney(dest) {
-  // use xfers 
+  // use xfers
   // send slack message
-  
 }
