@@ -5,7 +5,7 @@ import {
   reward_amt,
   award_scheduler,
   nag_scheduler,
-  thankbot_test_channel,
+  thankbot_announce_channel,
 } from '../constants.js';
 import * as slackClient from '../client/slack-client.js';
 import { Thank } from '../models/thank.js';
@@ -13,34 +13,26 @@ import { Winner } from '../models/winner.js';
 import { Employee } from '../models/employee.js';
 
 export async function startScheduler() {
-
-  /*  TEST CODE TO SELECT WINNER
-  let winner = await calculateWinner();
-  let winner_employee = await Employee.findOne({ _id: winner.winner_id });
-  slackClient.sendMessage(
-    `Last month's winner is ${winner_employee.email}, start:${winner.start}, end: ${winner.end}, ${winner.thanks_recv}`,
-    { channel: thankbot_test_channel }
-  );
-  */
-
   // award job
   schedule.scheduleJob(award_scheduler, async () => {
     let winner = await calculateWinner();
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
     slackClient.sendMessage(
-      `Last month's winner is ${winner_employee.email}, start:${winner.start}, end: ${winner.end}, ${winner.thanks_recv}`,
-      { channel: thankbot_test_channel }
+      `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
+      { channel: thankbot_announce_channel }
     );
-    // initiate message them to initiate OTP flow
   });
 
   // nag job
+  // everyday find unawarded winners
   schedule.scheduleJob(nag_scheduler, function() {
-    // everyday find unawarded winners
-    // message them to initate OTP flow
-    slackClient.sendMessage('nag_scheduler', {
-      channel: thankbot_test_channel,
-    });
+    let uncollected_winners = await Winner.find({ disbursed_at: null });
+    uncollected_winners.forEach(winner => {
+      let em = await Employee.findOne({id: winner.id});
+      slackClient.sendMessage(
+        `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`, 
+        { channel: thankbot_announce_channel });
+    })
   });
 }
 
