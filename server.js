@@ -28,7 +28,7 @@ app.use(
 app.use(bodyParser.json());
 
 app.post('/thanksbot', (req, res, next) => {
-  botRouter.processRequest(req, res, [otpFlow.sendOTP, otpFLow.recieveOTP, help.sendHelpMessage, invariant.checkInvariants, thankbot.addInvariants, thankbot.sendThanks]);
+  botRouter.processRequest(req, res, [otpFlow.sendOTP, otpFlow.receiveOTP, help.sendHelpMessage, invariant.checkInvariants, thankbot.addInvariants, thankbot.sendThanks]);
 });
 
 console.log('Server Started and listening at port:', port);

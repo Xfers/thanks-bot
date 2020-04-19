@@ -5,6 +5,7 @@ import { Winner } from '../models/winner.js';
 
 // This is invoked with "@thankbot OTP=<phone number>" command
 export async function sendOTP(ctx) {
+  console.log('sendOTP flow');
   let cmd = ctx.stripped_text.trim();
   console.log(cmd.indexOf('OTP='));
   if (cmd.indexOf('OTP=') != -1) {
@@ -29,8 +30,9 @@ export async function sendOTP(ctx) {
   }
 }
 
-// This is invoked with "@thankbot OTP-CODE=<recievedOTP>" command
-export async function recieveOTP(ctx) {
+// This is invoked with "@thankbot OTP-CODE=<receivedOTP>" command
+export async function receiveOTP(ctx) {
+  console.log('receive flow');
   let cmd = ctx.stripped_text.trim();
   if (cmd.indexOf('OTP-CODE=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
