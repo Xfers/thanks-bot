@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import {thankSchema} from './thank.js'
+import mongoose from 'mongoose';
+import { thankSchema } from './thank.js';
 
 export const employeeSchema = new mongoose.Schema({
   name: String,
@@ -8,8 +8,7 @@ export const employeeSchema = new mongoose.Schema({
   slack_token: { type: String, unique: true, required: true },
   xfers_token: String,
   thanks_given: [thankSchema],
-  thanks_recieved: [thankSchema]
+  thanks_recieved: [thankSchema],
 });
 
 export const Employee = mongoose.model('Employee', employeeSchema);
-
