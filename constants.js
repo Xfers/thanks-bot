@@ -17,7 +17,7 @@ export const reward_currency = 'SGD';
 
 // xfers
 export const xfers_api_key =
-  process.env.XFERS_CUSTOMER_API_KEY ||
+  process.env['X-XFERS-USER-API-KEY'] ||
   '_B3pajsfwMuY-6793tqHgkHnHzUaa5_o4qzxR2bmZNY';
 export const xfers_env = process.env.XFERS_ENV || 'sandbox';
 export const xfers_app_api_key = process.env['X-XFERS-APP-API-KEY'] || '';
