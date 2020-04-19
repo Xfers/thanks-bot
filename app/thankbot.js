@@ -20,8 +20,9 @@ export async function sendThanks(ctx) {
   var src = await Employee.findOne({ slack_token: ctx.sender });
   var dest = await Employee.findOne({ slack_token: ctx.tagged_only });
 
-  // FIXME: the return false in catch seems not returning false?
-  if (await !is_valid({ src, dest, ctx })) return true;
+  let isValid = await is_valid({ src, dest, ctx })
+  if (!isValid) return true;
+  
   // pull the employee given the sender and tagged
   const msg = `<@${ctx.sender}> sent thanks to <@${ctx.tagged_only}> for${ctx.reason}!`;
   const result = await slackClient.sendMessage(msg, ctx);
