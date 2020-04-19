@@ -5,7 +5,8 @@ export function getBotStatus(ctx) {
   if (
     ctx.stripped_text.trim().toLowerCase() == 'status'
     ) {
-      xfersClient.get_bot_status(); return true
+      xfersClient.get_bot_status(); 
+      return true
   }
 
 }

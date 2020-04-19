@@ -8,7 +8,6 @@ export function sendHelpMessage(ctx) {
     ctx.stripped_text.trim().toLowerCase() == 'how'
     ) { 
       slackClient.sendMessage(`${help_msg}`, ctx); 
-      ctx.res.send({sucess: true}); 
       return true 
   }
 
