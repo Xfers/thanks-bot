@@ -8,7 +8,11 @@ export async function sendOTP(ctx) {
   let cmd = ctx.stripped_text.trim();
   console.log(cmd.indexOf('OTP='));
   if (cmd.indexOf('OTP=') != -1) {
+    console.log(ctx.sender)
+    let uncollected_winners = await Winner.find({ disbursed_at: null });
+    console.log(uncollected_winners)
     let employee = await checkSenderIsWinner(ctx.sender);
+    console.log(employee)
     if (employee) {
       let phone_number_string = cmd.replace('OTP=','').trim();
       let res = await xfersClient.send_otp_to_user(phone_number_string);
@@ -46,9 +50,13 @@ export async function recieveOTP(ctx) {
   }
 }
 
-async function checkSenderIsWinner(slack_token) {
-  let candidate = await Employee.findOne({ slack_token });
+async function checkSenderIsWinner(s_t) {
+  console.log(s_t)
+  let candidate = await Employee.findOne({ slack_token: s_t });
+  console.log(candidate)
+  console.log(candidate.id)
   var winner = await winnerWithId(candidate.id);
+  console.log(winner)
   return winner ? candidate : null;
 }
 
