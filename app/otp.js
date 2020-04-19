@@ -8,11 +8,13 @@ export async function sendOTP(ctx) {
   let cmd = ctx.stripped_text.trim();
   console.log(cmd.indexOf('OTP='));
   if (cmd.indexOf('OTP=') != -1) {
-    console.log(ctx.sender)
+    console.log(ctx.sender);
+    let uncollected_winners = await Winner.find({ disbursed_at: null });
+    console.log(uncollected_winners);
     let employee = await checkSenderIsWinner(ctx.sender);
-    console.log(employee)
+    console.log(employee);
     if (employee) {
-      let phone_number_string = cmd.replace('OTP=','').trim();
+      let phone_number_string = cmd.replace('OTP=', '').trim();
       let res = await xfersClient.send_otp_to_user(phone_number_string);
       let json_result = await res.json();
       if (json_result['msg'] == 'success') {
@@ -33,7 +35,7 @@ export async function recieveOTP(ctx) {
   if (cmd.indexOf('OTP-CODE=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
-      let code = cmd.replace('OTP-CODE=','').trim();
+      let code = cmd.replace('OTP-CODE=', '').trim();
       // check code if valid
       // if checks are good, disburse money using xfers client
       // if code invalid or disbursement failure, send error message here
@@ -49,12 +51,12 @@ export async function recieveOTP(ctx) {
 }
 
 async function checkSenderIsWinner(s_t) {
-  console.log(s_t)
+  console.log(s_t);
   let candidate = await Employee.findOne({ slack_token: s_t });
-  console.log(candidate)
-  console.log(candidate.id)
+  console.log(candidate);
+  console.log(candidate.id);
   var winner = await winnerWithId(candidate.id);
-  console.log(winner)
+  console.log(winner);
   return winner ? candidate : null;
 }
 
