@@ -1,10 +1,12 @@
+import * as xfersClient from '../client/xfers/client.js';
 import * as slackClient from '../client/slack-client.js';
 import { Employee } from '../models/employee.js';
 import { Winner } from '../models/winner.js';
 
 // This is invoked with "@thankbot OTP=<phone number>" command
 export async function sendOTP(ctx) {
-  let cmd = ctx.stripped_text.trim().toLowerCase();
+  let cmd = ctx.stripped_text.trim();
+  console.log(cmd.indexOf('OTP='));
   if (cmd.indexOf('OTP=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
@@ -12,7 +14,7 @@ export async function sendOTP(ctx) {
       let res = await xfersClient.send_otp_to_user(phone_number_string)
       json_result = await res.json()
       if (json_result['msg'] == 'success') {
-        slackClient.sendMessage(`<@${ctx.sender}> @Thankbot has sent you an OTP, please reply with @thankbot OTP=<+6512345678> to proceed. (no \`<>\`)`, ctx);
+        slackClient.sendMessage(`<@${ctx.sender}> @Thankbot has sent you an OTP, please reply with @thankbot OTP-CODE=<12345678> to proceed. (no \`<>\`)`, ctx);
       } else {
         slackClient.sendMessage(`<@${ctx.sender}> @Thankbot failed to sent you an OTP, please retry. error_code:${json_result["error_code"]}`, ctx);
       }
@@ -25,7 +27,7 @@ export async function sendOTP(ctx) {
 
 // This is invoked with "@thankbot OTP-CODE=<recievedOTP>" command
 export async function recieveOTP(ctx) {
-  let cmd = ctx.stripped_text.trim().toLowerCase();
+  let cmd = ctx.stripped_text.trim();
   if (cmd.indexOf('OTP-CODE=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
