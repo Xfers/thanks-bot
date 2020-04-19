@@ -14,7 +14,7 @@ import * as otpFlow from './app/otp.js';
 mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // update db from csv
-updateDataIfNeeded();
+// updateDataIfNeeded();
 
 // start scheduler
 startScheduler();

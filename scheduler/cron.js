@@ -33,10 +33,12 @@ export async function startScheduler() {
     let uncollected_winners = await Winner.find({ disbursed_at: null });
     uncollected_winners.forEach(async winner => {
       let winner_employee = await Employee.findOne({ id: winner.id });
-      slackClient.sendMessage(
-        `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
-        { channel: thankbot_announce_channel }
-      );
+      if (winner_employee) {
+        slackClient.sendMessage(
+          `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
+          { channel: thankbot_announce_channel }
+        );
+      }
     });
   });
 }
