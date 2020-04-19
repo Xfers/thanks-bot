@@ -1,12 +1,6 @@
 import schedule from 'node-schedule';
 import moment from 'moment';
-import {
-  reward_currency,
-  reward_amt,
-  award_scheduler,
-  nag_scheduler,
-  thankbot_announce_channel,
-} from '../constants.js';
+import { reward_currency, reward_amt, award_scheduler, nag_scheduler, thankbot_announce_channel } from '../constants.js';
 import * as slackClient from '../client/slack-client.js';
 import { Thank } from '../models/thank.js';
 import { Winner } from '../models/winner.js';
@@ -28,11 +22,12 @@ export async function startScheduler() {
   schedule.scheduleJob(nag_scheduler, async () => {
     let uncollected_winners = await Winner.find({ disbursed_at: null });
     uncollected_winners.forEach(async winner => {
-      let winner_employee = await Employee.findOne({id: winner.id});
+      let winner_employee = await Employee.findOne({ id: winner.id });
       slackClient.sendMessage(
-        `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`, 
-        { channel: thankbot_announce_channel });
-    })
+        `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
+        { channel: thankbot_announce_channel }
+      );
+    });
   });
 }
 

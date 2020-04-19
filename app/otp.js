@@ -11,26 +11,15 @@ export async function sendOTP(ctx) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
       let phone_number_string = cmd.replace('OTP=').trim();
-      xfersClient.send_otp_to_user(phone_number_string).then((res) => {
-        res.json().then((json_result) => {
-          if (json_result['msg'] == 'success') {
-            slackClient.sendMessage(
-              `<@${ctx.sender}> @Thankbot has sent you an OTP, please reply with @thankbot OTP=<+6512345678> to proceed. (no \`<>\`)`,
-              ctx
-            );
-          } else {
-            slackClient.sendMessage(
-              `<@${ctx.sender}> @Thankbot failed to sent you an OTP, please retry. error_code:${JSON.stringify(json_result)}`,
-              ctx
-            );
-          }
-        });
-      });
+      let res = await xfersClient.send_otp_to_user(phone_number_string);
+      let json_result = await res.json();
+      if (json_result['msg'] == 'success') {
+        slackClient.sendMessage(`<@${ctx.sender}> @Thankbot has sent you an OTP, please reply with @thankbot OTP=<+6512345678> to proceed. (no \`<>\`)`, ctx);
+      } else {
+        slackClient.sendMessage(`<@${ctx.sender}> @Thankbot failed to sent you an OTP, please retry. error_code:${JSON.stringify(json_result)}`, ctx);
+      }
     } else {
-      slackClient.sendMessage(
-        `<@${ctx.sender}>, You don't have any awards waiting to be disbursed`,
-        ctx
-      );
+      slackClient.sendMessage(`<@${ctx.sender}>, You don't have any awards waiting to be disbursed`, ctx);
     }
     return true;
   }
@@ -49,15 +38,9 @@ export async function recieveOTP(ctx) {
 
       // announce success -- "successfully disbursed ${reward_amt} to you"
       let winner = await winnerWithId(employee.id);
-      slackClient.sendMessage(
-        `Congratulations <@${ctx.sender}>! @Thankbot sent ${winner.amount}${winner.curreny} to your xfers account!`,
-        ctx
-      );
+      slackClient.sendMessage(`Congratulations <@${ctx.sender}>! @Thankbot sent ${winner.amount}${winner.curreny} to your xfers account!`, ctx);
     } else {
-      slackClient.sendMessage(
-        `<@${ctx.sender}>, You don't have any awards waiting to be disbursed`,
-        ctx
-      );
+      slackClient.sendMessage(`<@${ctx.sender}>, You don't have any awards waiting to be disbursed`, ctx);
     }
     return true;
   }
