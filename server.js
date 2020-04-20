@@ -29,11 +29,12 @@ app.use(bodyParser.json());
 
 app.post('/thanksbot', (req, res, next) => {
   botRouter.processRequest(req, res, [
-    otpFlow.sendOTP,
-    help.sendHelpMessage,
-    invariant.checkInvariants,
-    thankbot.addInvariants,
-    thankbot.sendThanks,
+    otpFlow.sendOTP, 
+    otpFlow.receiveOTP, 
+    help.sendHelpMessage, 
+    invariant.checkInvariants, 
+    thankbot.addInvariants, 
+    thankbot.sendThanks
   ]);
 });
 
