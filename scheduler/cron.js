@@ -1,6 +1,6 @@
 import schedule from 'node-schedule';
 import moment from 'moment';
-import { generate_winner, reward_currency, reward_amt, award_scheduler, nag_scheduler, thankbot_announce_channel } from '../constants.js';
+import { seasonality, generate_winner, reward_currency, reward_amt, award_scheduler, nag_scheduler, thankbot_announce_channel } from '../constants.js';
 import * as slackClient from '../client/slack-client.js';
 import { Thank } from '../models/thank.js';
 import { Winner } from '../models/winner.js';
@@ -9,7 +9,7 @@ import { Employee } from '../models/employee.js';
 export async function startScheduler() {
   // TEST CODE TO ADD A WINNER ON SERVER START
   if (generate_winner == 'true') {
-    let winner = await calculateWinner();
+    let winner = await calculateWinner(seasonality);
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
     slackClient.sendMessage(`Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`, {
       channel: thankbot_announce_channel,
@@ -18,7 +18,7 @@ export async function startScheduler() {
 
   // award job
   schedule.scheduleJob(award_scheduler, async () => {
-    let winner = await calculateWinner();
+    let winner = await calculateWinner(seasonality);
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
     slackClient.sendMessage(
       `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
@@ -34,7 +34,7 @@ export async function startScheduler() {
       let winner_employee = await Employee.findOne({ id: winner.id });
       if (winner_employee) {
         slackClient.sendMessage(
-          `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
+          `<@${winner_employee.slack_token}> please reply with \`@thankbot OTP=<+6512345678>\` to redeem your award! (no \`<>\`)`,
           { channel: thankbot_announce_channel }
         );
       }
@@ -42,10 +42,10 @@ export async function startScheduler() {
   });
 }
 
-async function calculateWinner() {
-  // create new winner from current month
-  var start = moment().subtract(1, 'day').startOf('month').format();
-  var end = moment().subtract(1, 'day').endOf('month').format();
+// seasonality can be 'day', 'week', 'month', 'year'
+async function calculateWinner(seasonality) {
+  var start = moment().startOf(seasonality).format();
+  var end = moment().endOf(seasonality).format();
   var thanks_for_month = await Thank.find({
     created_at: { $gte: start, $lte: end },
   });

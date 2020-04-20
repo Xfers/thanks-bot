@@ -1,6 +1,6 @@
 import sha1Hex from 'sha1-hex';
 import BaseRequest from './base_request.js';
-import { xfers_app_api_key } from '../../../constants.js';
+import { xfers_app_api_key, reward_amt } from '../../../constants.js';
 
 class PayoutsRequest extends BaseRequest {
   constructor(recipient_api_token) {
@@ -20,7 +20,7 @@ class PayoutsRequest extends BaseRequest {
   body() {
     const today = new Date();
     return {
-      amount: 50,
+      amount: reward_amt,
       invoice_id: `thankbot_${today.getMonth() + 1}_${today.getFullYear()}_${Math.floor(Math.random() * 100)}`,
       user_api_token: this.recipient_api_token,
       description: 'Most thanks receiver for this month',
