@@ -4,7 +4,7 @@ import moment from 'moment';
 
 // Here is where we route the requests in the bot itself,
 export async function processRequest(req, res, response_chain) {
-  
+
   console.log(req.body);
   var body = req.body;
   if (body.challenge) {
@@ -14,11 +14,10 @@ export async function processRequest(req, res, response_chain) {
   }
 
   // discard if not in the last 2 seconds
-  const channel = body && body.event && body.event.event_ts;
-  const event_ts = moment(Number(body.event.event_ts.substring(0, body.event.event_ts.indexOf('.'))));
+  const event_ts = moment.unix(body.event.event_ts);
   const current = moment();
-  if (current.diff(event_ts, 'seconds') > 2) {
-    console.log(`Ignoring old request`);
+  if (current.diff(event_ts, 'seconds') > 5) {
+    console.log(`Ignoring old request: ${current.diff(event_ts, 'seconds')} seconds ago`);
     res.send({ ignored: true });
     return
   }
