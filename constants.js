@@ -6,7 +6,20 @@ export const dburl =                     process.env.MONGODB_URI || 'mongodb://l
 export const bot_user_token =            'U012QC15PAL';
 export const bot_access_token =          process.env['SLACK_BOT_ACCESS_TOKEN'] || '';
 export const rate_limit_in_minutes =     process.env.RATE_LIMIT_IN_MINUTES || 5;
-export const help_msg =                  process.env.HELP_MSG || '\nWelcome to Xfers_Thankbot!\n The format to use is: `@ThankBot <@person> for <reason>` without the `<>`';
+export const help_msg =                  
+'\nWelcome to Xfers_Thankbot!\n \
+Thankbot is here to encourage everyone to show their appreciation\n\
+for others in the team! Send them a thanks with thankbot!\n\
+\n\
+At the end of every month, the system picks out the person\n\
+who recieves the most thanks and will DISBURSE them a set\n\
+amount of money to their xfers account!\n\
+So keep those messages of appreciations coming!\n\
+\n\
+The format to use is: `@ThankBot [@PERSON] for [REASON]` without the `[ ]`\n\
+Also do follow winner announcements on #tf-xfers-thanksbot\n\
+\n\
+This bot was brought to you by the fancy folks at #tf-xfers-thanksbot :)'
 export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C011KRYDDAB';
 export const nag_scheduler =             process.env.NAG_SCHEDULER || '0 0 12 * * ?'; // Every day at noon - 12pm
 export const award_scheduler =           process.env.AWARD_SCHEDULER || '0 0 12 L * ?'; // Every month on the last day of the month, at noon

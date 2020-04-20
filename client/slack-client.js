@@ -3,10 +3,7 @@ import { bot_access_token } from '../constants.js';
 
 export async function sendMessage(text, ctx) {
   console.log(`Sending text: ${text}`);
-  let prefix = process.env.NODE_ENV == 'development' ? '[DEV]' : '';
-  // Echo back
-  // reply to channel if thread_ts is missing
-  // https://api.slack.com/methods/chat.postMessage#arg_thread_ts
+  let prefix = process.env.XFERS_ENV == 'production' ? '' : `[${process.env.XFERS_ENV}]`
   const result = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'post',
     body: JSON.stringify({
