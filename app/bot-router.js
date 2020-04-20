@@ -1,9 +1,10 @@
 // ** Dont need to modify this unless you need more params in ctx **
 import { bot_user_token } from '../constants.js';
+import moment from 'moment';
 
 // Here is where we route the requests in the bot itself,
 export async function processRequest(req, res, response_chain) {
-  // discard if not in the last 5 seconds
+  
   console.log(req.body);
   var body = req.body;
   if (body.challenge) {
@@ -11,6 +12,17 @@ export async function processRequest(req, res, response_chain) {
     res.send(req.body);
     return;
   }
+
+  // discard if not in the last 2 seconds
+  const channel = body && body.event && body.event.event_ts;
+  const event_ts = moment(Number(body.event.event_ts.substring(0, body.event.event_ts.indexOf('.'))));
+  const current = moment();
+  if (current.diff(event_ts, 'seconds') > 2) {
+    console.log(`Ignoring old request`);
+    res.send({ ignored: true });
+    return
+  }
+
   // Request params
   const channel = body && body.event && body.event.channel;
   const thread_ts = body && body.event.thread_ts;
