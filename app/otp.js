@@ -36,13 +36,7 @@ export async function receiveOTP(ctx) {
       // if checks are good, disburse money using xfers client
       // if code invalid or disbursement failure, send error message here
       let res = await xfersClient.get_token(code, phone_number_string);
-      let json_result = await res.json();
-      const { is_fully_verified, user_api_token } = json_result;
-      if (!is_fully_verified) {
-        slackClient.sendMessage(`Your Xfers account is not verified yet, please verify your xfers account first!`, ctx);
-        return true;
-      }
-
+      let { user_api_token } = await res.json();
       res = await xfersClient.payouts(user_api_token);
       // announce success -- "successfully disbursed ${reward_amt} to you"
       let winner = await winnerWithId(employee.id);
