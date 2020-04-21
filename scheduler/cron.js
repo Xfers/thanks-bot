@@ -11,7 +11,7 @@ export async function startScheduler() {
   if (generate_winner == 'true') {
     let winner = await calculateWinner(seasonality);
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
-    slackClient.sendMessage(`Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your award! (no \`[ ]\`)`, {
+    slackClient.sendMessage(`Winner for the ${seasonality} of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your award! (no \`[ ]\`)`, {
       channel: thankbot_announce_channel,
     });
   }
@@ -21,7 +21,7 @@ export async function startScheduler() {
     let winner = await calculateWinner(seasonality);
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
     slackClient.sendMessage(
-      `Winner for the month of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your award! (no \`[ ]\`)`,
+      `Winner for the ${seasonality} of ${moment(winner.start).format('MMMM')} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your award! (no \`[ ]\`)`,
       { channel: thankbot_announce_channel }
     );
   });
