@@ -1,6 +1,7 @@
 // server
 export const port =                      process.env.PORT || 8080;
 export const dburl =                     process.env.MONGODB_URI || 'mongodb://localhost:27017/thanksbot';
+export const heroku_url =                "https://shielded-brook-61543.herokuapp.com";
 
 // slack bot
 export const bot_user_token =            'U012QC15PAL';
