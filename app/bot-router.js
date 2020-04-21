@@ -4,8 +4,6 @@ import moment from 'moment';
 
 // Here is where we route the requests in the bot itself,
 export async function processRequest(req, res, response_chain) {
-
-  console.log(req.body);
   var body = req.body;
   if (body.challenge) {
     // handle challenge
@@ -28,10 +26,12 @@ export async function processRequest(req, res, response_chain) {
   const sender = body && body.event.user;
   const raw_text = body && body.event.text;
   const stripped_text = raw_text.replace(`<@${bot_user_token}>`, 'thankbot');
-  const tagged = stripped_text.match(/(?<=(<@)).*(?=>)/g);
-
+  const tokens = stripped_text.split(/[  ]+/)
+  const tagged = tokens.map(e => { return e.match(/(?<=(<@)).*(?=>)/g) }).flat().filter(Boolean)
+  
   var ctx = { sender, stripped_text, tagged, channel, thread_ts, res, req };
-
+  const { res: resp, req: requ, ...p } = ctx;
+  console.log(p)
   var handled = false;
   for (let i = 0; i < response_chain.length; i++) {
     handled = await response_chain[i](ctx);
