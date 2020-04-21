@@ -33,12 +33,12 @@ app.get('/', (req, res, next) => {
 
 app.post('/thanksbot', (req, res, next) => {
   botRouter.processRequest(req, res, [
-    adder.addUser,
     otpFlow.sendOTP, 
     otpFlow.receiveOTP, 
     help.sendHelpMessage, 
     invariant.checkInvariants, 
     thankbot.addInvariants, 
+    adder.addUser,
     thankbot.sendThanks
   ]);
 });

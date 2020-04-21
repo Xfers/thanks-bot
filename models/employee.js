@@ -3,7 +3,7 @@ import { thankSchema } from './thank.js';
 
 export const employeeSchema = new mongoose.Schema({
   name: String,
-  email: { type: String, unique: true, required: true },
+  email: { type: String, unique: true },
   slack_display_name: String,
   slack_token: { type: String, unique: true, required: true },
   xfers_token: String,

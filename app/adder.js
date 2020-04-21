@@ -1,16 +1,15 @@
-import { Employee } from "../models/employee"
+import { Employee } from "../models/employee.js"
 
 export async function addUser(ctx) {
-  let cmd = ctx.stripped_text.trim();
-  if (cmd.indexOf('add') != -1 && cmd.indexOf('[') != -1 && cmd.indexOf(']') != -1) {
-    let email = ctx.stripped_text.match(/(?!\[).*(?=])/g)
-    var employee = new Employee({slack_token: ctx.tagged_only, email: email})
+  let candidate = await Employee.findOne({ slack_token: ctx.tagged_only });
+  if (!candidate) {
+    var employee = new Employee({slack_token: ctx.tagged_only})
     let res = await employee.save();
     if (res) {
       slackClient.sendMessage(`Added <@${ctx.tagged_only}> to thankbot, email: ${email}`, ctx);
     } else {
       slackClient.sendMessage(`Error adding <@${ctx.tagged_only}> to thankbot, email: ${email}`, ctx);
     }
-    return true;
   }
+  return false
 }
