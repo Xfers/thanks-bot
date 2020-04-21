@@ -11,6 +11,7 @@ import * as help from './app/help.js';
 import * as invariant from './app/invariant-check.js';
 import * as thankbot from './app/thankbot.js';
 import * as otpFlow from './app/otp.js';
+import * as adder from './app/adder.js';
 
 mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -32,6 +33,7 @@ app.get('/', (req, res, next) => {
 
 app.post('/thanksbot', (req, res, next) => {
   botRouter.processRequest(req, res, [
+    adder.addUser,
     otpFlow.sendOTP, 
     otpFlow.receiveOTP, 
     help.sendHelpMessage, 
