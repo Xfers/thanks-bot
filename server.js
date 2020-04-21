@@ -1,6 +1,7 @@
 import { port, dburl } from './constants.js';
-import { updateDataIfNeeded } from './seed.js';
 import { startScheduler } from './scheduler/cron.js';
+import { heroku_url } from './constants.js'
+import { wakeUpDyno } from './wake.js'
 import express from 'express';
 import http from 'http';
 import bodyParser from 'body-parser';
@@ -24,6 +25,10 @@ app.use(
 );
 app.use(bodyParser.json());
 
+app.get('/', () =>{
+  res.send({success: true})
+})
+
 app.post('/thanksbot', (req, res, next) => {
   botRouter.processRequest(req, res, [
     otpFlow.sendOTP, 
@@ -36,4 +41,6 @@ app.post('/thanksbot', (req, res, next) => {
 });
 
 console.log('Server Started and listening at port:', port);
-http.createServer(app).listen(port);
+http.createServer(app).listen(port, () => {
+  wakeUpDyno(heroku_url);
+});
