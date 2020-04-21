@@ -66,6 +66,7 @@ async function same_as_previous_thanks({ src, ctx }) {
 }
 
 async function check_user_vote_today({ src, ctx }) {
+  return false;
   if (src.thanks_given == undefined) return false;
   if (src.thanks_given.length == 0) return false;
   const idx = src.thanks_given.length - 1;
