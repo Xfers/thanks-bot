@@ -27,7 +27,7 @@ export async function processRequest(req, res, response_chain) {
   const thread_ts = body && body.event.thread_ts;
   const sender = body && body.event.user;
   const raw_text = body && body.event.text;
-  const stripped_text = raw_text.replace(`<@${bot_user_token}>`, '');
+  const stripped_text = raw_text.replace(`<@${bot_user_token}>`, 'thankbot');
   const tagged = stripped_text.match(/(?<=(<@)).*(?=>)/g);
 
   var ctx = { sender, stripped_text, tagged, channel, thread_ts, res, req };
