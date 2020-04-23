@@ -21,6 +21,12 @@ The format to use is: `@ThankBot [@PERSON] for [REASON]` without the `[ ]`\n\
 Also do follow winner announcements on #tf-xfers-thanksbot\n\
 \n\
 This bot was brought to you by the fancy folks at #tf-xfers-thanksbot :)'
+
+export const otp_help_msg =                  
+"In order for you to recieve the payout from the bot, you'll need an xfers account \n\
+in the environment thats being used by the bot. staging or sandbox or production. \n\
+Creating an account should be quite straightforward. Verification is NOT required"
+
 export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C011KRYDDAB'; // C028XNGTH general
 export const nag_scheduler =             process.env.NAG_SCHEDULER || '0 0 12 * * ?'; // Every day at noon - 12pm
 export const award_scheduler =           process.env.AWARD_SCHEDULER || '0 0 12 L * ?'; // Every month on the last day of the month, at noon
