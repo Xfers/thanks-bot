@@ -7,4 +7,8 @@ export function sendHelpMessage(ctx) {
     slackClient.sendMessage(`${help_msg}`, ctx);
     return true;
   }
+  if (ctx.stripped_text.trim().toLowerCase() == 'thankbot otp help' || ctx.stripped_text.trim().toLowerCase() == 'thankbot otp how') {
+    slackClient.sendMessage(`${otp_help_msg}`, ctx);
+    return true;
+  }
 }
