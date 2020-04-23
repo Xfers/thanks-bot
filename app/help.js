@@ -3,11 +3,11 @@ import { help_msg } from '../constants.js';
 
 export function sendHelpMessage(ctx) {
   // Display help if needed
-  if (ctx.stripped_text.trim().toLowerCase() == 'thankbot help' || ctx.stripped_text.trim().toLowerCase() == 'thankbot how') {
+  if (ctx.stripped_text.trim().toLowerCase() == 'help' || ctx.stripped_text.trim().toLowerCase() == 'how') {
     slackClient.sendMessage(`${help_msg}`, ctx);
     return true;
   }
-  if (ctx.stripped_text.trim().toLowerCase() == 'thankbot otp help' || ctx.stripped_text.trim().toLowerCase() == 'thankbot otp how') {
+  if (ctx.stripped_text.trim().toLowerCase() == 'otp help' || ctx.stripped_text.trim().toLowerCase() == 'otp how') {
     slackClient.sendMessage(`${otp_help_msg}`, ctx);
     return true;
   }
