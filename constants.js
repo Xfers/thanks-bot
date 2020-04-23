@@ -22,7 +22,7 @@ Also do follow winner announcements on #tf-xfers-thanksbot\n\
 For help with OTP, use [@Thanksbot OTP help]\n\
 \n\
 \n\
-This bot was brought to you by the fancy folks at #tf-xfers-thanksbot \n\
+This bot was brought to you by the folks at #tf-xfers-thanksbot \n\
 help contribute to thanksbot development here: https://www.notion.so/xfers/Developing-for-ThanksBot-eb573ed32b57472aaa5a2b629a17f5f8'
 
 export const otp_help_msg =                  
