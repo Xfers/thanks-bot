@@ -21,7 +21,7 @@ The format to use is: `@ThankBot [@PERSON] for [REASON]` without the `[ ]`\n\
 Also do follow winner announcements on #tf-xfers-thanksbot\n\
 \n\
 This bot was brought to you by the fancy folks at #tf-xfers-thanksbot :)'
-export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C011KRYDDAB';
+export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C011KRYDDAB'; // C028XNGTH general
 export const nag_scheduler =             process.env.NAG_SCHEDULER || '0 0 12 * * ?'; // Every day at noon - 12pm
 export const award_scheduler =           process.env.AWARD_SCHEDULER || '0 0 12 L * ?'; // Every month on the last day of the month, at noon
 export const seasonality =               process.env.SEASONALITY || 'month'; // this must be changed with the schedules
@@ -34,3 +34,5 @@ export const xfers_api_key =             process.env.X_XFERS_USER_API_KEY || '_B
 export const xfers_env =                 process.env.XFERS_ENV || 'sandbox';
 export const xfers_app_api_key =         process.env.X_XFERS_APP_API_KEY || '';
 export const xfers_app_api_secret_key =  process.env.X_XFERS_APP_API_SECRET || '';
+
+// day -- 00 00 21 * * ? *  // everyday at 9pm
