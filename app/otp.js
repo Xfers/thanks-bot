@@ -13,7 +13,7 @@ export async function receivePhone(ctx) {
       // check code if valid
       // if checks are good, disburse money using xfers client
       // if code invalid or disbursement failure, send error message here
-      res = await xfersClient.payouts(phone_number_string);
+      let res = await xfersClient.payouts(phone_number_string);
       // announce success -- "successfully disbursed ${reward_amt} to you"
       let winner = await winnerWithId(employee.id);
       slackClient.sendMessage(`Congratulations <@${ctx.sender}>! @Thankbot sent ${winner.amount}${winner.currency} to your xfers account!`, ctx);

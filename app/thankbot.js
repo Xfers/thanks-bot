@@ -27,7 +27,7 @@ export async function sendThanks(ctx) {
   if (result) {
     let t = new Thank({ src_id: src.id, dest_id: dest.id, reason: ctx.reason });
     src.thanks_given.push(t);
-    dest.thanks_recieved.push(t);
+    dest.thanks_received.push(t);
     await t.save();
     await src.save();
     await dest.save();

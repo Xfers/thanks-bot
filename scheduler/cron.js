@@ -14,7 +14,7 @@ export async function startScheduler() {
     slackClient.sendMessage(
       `Winner for the ${seasonality == 'day' ? 'day' : `of ${moment(winner.start).format('MMMM')}`} is <@${winner_employee.slack_token}>! <@${
         winner_employee.slack_token
-      }>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot OTP help] for more help`,
+      }>, please reply with \`@Thankbot phone=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot Winner help] for more help`,
       { channel: thankbot_announce_channel }
     );
   }
@@ -26,7 +26,7 @@ export async function startScheduler() {
     slackClient.sendMessage(
       `Winner for the ${seasonality == 'day' ? 'day' : `of ${moment(winner.start).format('MMMM')}`} is <@${winner_employee.slack_token}>! <@${
         winner_employee.slack_token
-      }>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot OTP help] for more help`,
+      }>, please reply with \`@Thankbot phone=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot Winner help] for more help`,
       { channel: thankbot_announce_channel }
     );
   });

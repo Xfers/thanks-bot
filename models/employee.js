@@ -8,7 +8,7 @@ export const employeeSchema = new mongoose.Schema({
   slack_token: { type: String, unique: true, required: true },
   xfers_token: String,
   thanks_given: [thankSchema],
-  thanks_recieved: [thankSchema],
+  thanks_received: [thankSchema],
 });
 
 export const Employee = mongoose.model('Employee', employeeSchema);

@@ -1,5 +1,5 @@
 import * as slackClient from '../client/slack-client.js';
-import { help_msg } from '../constants.js';
+import { help_msg, winner_help_msg } from '../constants.js';
 
 export function sendHelpMessage(ctx) {
   // Display help if needed
@@ -7,8 +7,8 @@ export function sendHelpMessage(ctx) {
     slackClient.sendMessage(`${help_msg}`, ctx);
     return true;
   }
-  if (ctx.stripped_text.trim().toLowerCase() == 'otp help' || ctx.stripped_text.trim().toLowerCase() == 'otp how') {
-    slackClient.sendMessage(`${otp_help_msg}`, ctx);
+  if (ctx.stripped_text.trim().toLowerCase() == 'winner help' || ctx.stripped_text.trim().toLowerCase() == 'winner how') {
+    slackClient.sendMessage(`${winner_help_msg}`, ctx);
     return true;
   }
 }
