@@ -24,9 +24,9 @@ export async function receivePhone(ctx) {
   }
 }
 
-async function checkSenderIsWinner(s_t) {
-  console.log(s_t);
-  let candidate = await Employee.findOne({ slack_token: s_t });
+async function checkSenderIsWinner(slack_token) {
+  console.log(slack_token);
+  let candidate = await Employee.findOne({ slack_token });
   console.log(candidate);
   console.log(candidate.id);
   var winner = await winnerWithId(candidate.id);

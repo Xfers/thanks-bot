@@ -8,7 +8,7 @@ export const bot_user_token = 'U012QC15PAL';
 export const bot_access_token = process.env['SLACK_BOT_ACCESS_TOKEN'] || '';
 export const rate_limit_in_minutes = process.env.RATE_LIMIT_IN_MINUTES || 5;
 export const help_msg =
-  '\nWelcome to Xfers_Thankbot!\n \
+  '\nWelcome to Xfers Thankbot!\n \
 Thankbot is here to encourage everyone to show their appreciation\n\
 for others in the team! Send them a thanks with thankbot!\n\
 \n\
@@ -19,7 +19,7 @@ So keep those messages of appreciations coming!\n\
 \n\
 The format to use is: `@ThankBot [@PERSON] for [REASON]` without the `[ ]`\n\
 Also do follow winner announcements on #tf-xfers-thanksbot\n\
-For help with award collection, use [@Thanksbot Winner help]\n\
+For help with award collection, use `@Thankbot Winner help`\n\
 \n\
 \n\
 This bot was brought to you by the folks at #tf-xfers-thanksbot \n\
@@ -30,7 +30,7 @@ export const winner_help_msg =
 in the environment thats being used by the bot. staging or sandbox or production. \n\
 Creating an account should be quite straightforward. Verification is NOT required\n\
 \n\
-To collect your award, the format is `[@thankbot phone=[+6512345678]`";
+To collect your award, the format is `@thankbot phone=+6512345678`";
 
 export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C011KRYDDAB'; // C028XNGTH general
 export const nag_scheduler = process.env.NAG_SCHEDULER || '0 0 12 * * ?'; // Every day at noon - 12pm
