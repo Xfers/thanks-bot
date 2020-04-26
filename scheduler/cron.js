@@ -12,7 +12,9 @@ export async function startScheduler() {
     let winner = await calculateWinner(seasonality);
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
     slackClient.sendMessage(
-      `Winner for the ${seasonality == 'day' ? 'day' : `of ${moment(winner.start).format('MMMM')}`} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot OTP help] for more help`,
+      `Winner for the ${seasonality == 'day' ? 'day' : `of ${moment(winner.start).format('MMMM')}`} is <@${winner_employee.slack_token}>! <@${
+        winner_employee.slack_token
+      }>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot OTP help] for more help`,
       { channel: thankbot_announce_channel }
     );
   }
@@ -22,7 +24,9 @@ export async function startScheduler() {
     let winner = await calculateWinner(seasonality);
     let winner_employee = await Employee.findOne({ _id: winner.winner_id });
     slackClient.sendMessage(
-      `Winner for the ${seasonality == 'day' ? 'day' : `of ${moment(winner.start).format('MMMM')}`} is <@${winner_employee.slack_token}>! <@${winner_employee.slack_token}>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot OTP help] for more help`,
+      `Winner for the ${seasonality == 'day' ? 'day' : `of ${moment(winner.start).format('MMMM')}`} is <@${winner_employee.slack_token}>! <@${
+        winner_employee.slack_token
+      }>, please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your ${reward_amt}${reward_currency} award! (no \`[ ]\`).\nReply [@Thankbot OTP help] for more help`,
       { channel: thankbot_announce_channel }
     );
   });
@@ -34,10 +38,7 @@ export async function startScheduler() {
     uncollected_winners.forEach(async (winner) => {
       let winner_employee = await Employee.findOne({ id: winner.id });
       if (winner_employee) {
-        slackClient.sendMessage(
-          `<@${winner_employee.slack_token}> please reply with \`@Thankbot OTP=[+6512345678]\` to redeem your award! (no \`[ ]\`)`,
-          { channel: thankbot_announce_channel }
-        );
+        slackClient.sendMessage(`<@${winner_employee.slack_token}> please reply with \`@Thankbot phone=[+6512345678]\` to redeem your award! (no \`[ ]\`)`, { channel: thankbot_announce_channel });
       }
     });
   });

@@ -3,9 +3,9 @@ import BaseRequest from './base_request.js';
 import { xfers_app_api_key, reward_amt } from '../../../constants.js';
 
 class PayoutsRequest extends BaseRequest {
-  constructor(recipient_api_token) {
+  constructor(recipient_phone_no) {
     super();
-    this.recipient_api_token = recipient_api_token;
+    this.recipient_phone_no = recipient_phone_no;
     this.method = 'post';
     this.relative_url = '/v3/payouts';
   }
@@ -22,7 +22,7 @@ class PayoutsRequest extends BaseRequest {
     return {
       amount: reward_amt,
       invoice_id: `thankbot_${today.getMonth() + 1}_${today.getFullYear()}_${Math.floor(Math.random() * 100)}`,
-      user_api_token: this.recipient_api_token,
+      recipient: this.recipient_phone_no,
       description: 'Most thanks receiver for this month',
     };
   }

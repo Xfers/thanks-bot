@@ -3,40 +3,17 @@ import * as slackClient from '../client/slack-client.js';
 import { Employee } from '../models/employee.js';
 import { Winner } from '../models/winner.js';
 
-// This is invoked with "@thankbot OTP=<phone number>" command
-export async function sendOTP(ctx) {
+// This is invoked with "@thankbot phone=<phone number>" command
+export async function receivePhone(ctx) {
   let cmd = ctx.stripped_text.trim();
-  if (cmd.indexOf('OTP=') != -1) {
+  if (cmd.indexOf('phone=') != -1) {
     let employee = await checkSenderIsWinner(ctx.sender);
     if (employee) {
-      let phone_number_string = cmd.replace('OTP=', '').trim();
-      let res = await xfersClient.send_otp_to_user(phone_number_string);
-      let json_result = await res.json();
-      if (json_result['msg'] == 'success') {
-        slackClient.sendMessage(`<@${ctx.sender}> @Thankbot has sent you an OTP, please reply with \`[@thankbot OTP-CODE=[otp_6_digit],[+6512345678]\` to proceed. (no \`[ ]\`)`, ctx);
-      } else {
-        slackClient.sendMessage(`<@${ctx.sender}> @Thankbot failed to sent you an OTP, please retry. error_code:${JSON.stringify(json_result)}`, ctx);
-      }
-    } else {
-      slackClient.sendMessage(`<@${ctx.sender}>, You don't have any awards waiting to be disbursed`, ctx);
-    }
-    return true;
-  }
-}
-
-// This is invoked with "@thankbot OTP-CODE=<receivedOTP>" command
-export async function receiveOTP(ctx) {
-  let cmd = ctx.stripped_text.trim();
-  if (cmd.indexOf('OTP-CODE=') != -1) {
-    let employee = await checkSenderIsWinner(ctx.sender);
-    if (employee) {
-      let [code, phone_number_string] = cmd.match(/((\d|\+)+)/g);
+      let phone_number_string = cmd.toLowerCase().replace('phone=', '').trim();
       // check code if valid
       // if checks are good, disburse money using xfers client
       // if code invalid or disbursement failure, send error message here
-      let res = await xfersClient.get_token(code, phone_number_string);
-      let { user_api_token } = await res.json();
-      res = await xfersClient.payouts(user_api_token);
+      res = await xfersClient.payouts(phone_number_string);
       // announce success -- "successfully disbursed ${reward_amt} to you"
       let winner = await winnerWithId(employee.id);
       slackClient.sendMessage(`Congratulations <@${ctx.sender}>! @Thankbot sent ${winner.amount}${winner.currency} to your xfers account!`, ctx);
