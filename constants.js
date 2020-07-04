@@ -18,11 +18,11 @@ amount of money to their xfers account!\n\
 So keep those messages of appreciations coming!\n\
 \n\
 The format to use is: `@ThankBot [@PERSON] for [REASON]` without the `[ ]`\n\
-Also do follow winner announcements on #tf-xfers-thanksbot\n\
+Also do follow winner announcements on #ffg_xfers\n\
 For help with award collection, use `@Thankbot Winner help`\n\
 \n\
 \n\
-This bot was brought to you by the folks at #tf-xfers-thanksbot \n\
+This bot was brought to you by the folks at #ffg_xfers \n\
 help contribute to thanksbot development here: https://www.notion.so/xfers/Developing-for-ThanksBot-eb573ed32b57472aaa5a2b629a17f5f8';
 
 export const winner_help_msg =
@@ -32,7 +32,7 @@ Creating an account should be quite straightforward. Verification is NOT require
 \n\
 To collect your award, the format is `@thankbot phone=+6512345678`";
 
-export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C011KRYDDAB'; // C028XNGTH general
+export const thankbot_announce_channel = process.env.THANKBOT_ANNOUNCE_CHANNEL || 'C012FHU9T0B'; // C028XNGTH general
 export const nag_scheduler = process.env.NAG_SCHEDULER || '0 0 12 * * ?'; // Every day at noon - 12pm
 export const award_scheduler = process.env.AWARD_SCHEDULER || '0 0 12 L * ?'; // Every month on the last day of the month, at noon
 export const seasonality = process.env.SEASONALITY || 'month'; // this must be changed with the schedules
