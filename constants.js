@@ -4,7 +4,7 @@ export const dburl = process.env.MONGODB_URI || 'mongodb://localhost:27017/thank
 export const heroku_url = 'https://shielded-brook-61543.herokuapp.com';
 
 // slack bot
-export const bot_user_token = 'U012QC15PAL';
+export const bot_user_token = process.env['SLACK_BOT_SLACK_TOKEN'] || 'U015G9R7YAG';
 export const bot_access_token = process.env['SLACK_BOT_ACCESS_TOKEN'] || '';
 export const rate_limit_in_minutes = process.env.RATE_LIMIT_IN_MINUTES || 5;
 export const help_msg =
